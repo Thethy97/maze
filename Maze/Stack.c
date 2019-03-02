@@ -1,74 +1,67 @@
-
-#include "Stack.h"
-
-//初始化
+#include"Stack.h"
 void StackInit(Stack* ps)
 {
-	ps->_a = (DataType*)malloc(sizeof(DataType)*START_SIZE);
-	ps->_capacity = START_SIZE;
-	ps->_top = 0;
-}
+	assert(ps);
 
-//销毁函数
+	ps->_a = (DataType*)malloc(sizeof(DataType) * 3);//创建空间
+	ps->_top = 0;
+	ps->_capacity = 3;//容量是3
+}
 void StackDestory(Stack* ps)
 {
 	assert(ps);
-	if (ps->_a == NULL)
-		return;
-	free(ps->_a);
-	ps->_a = NULL;
-}
 
-//Push函数
+	if (ps->_a)//顺序栈不为空
+	{
+		free(ps->_a);
+		ps->_a = NULL;
+		ps->_capacity = ps->_top = 0;
+	}
+}
 void StackPush(Stack* ps, DataType x)
 {
 	assert(ps);
-	//需要扩容
-	if (ps->_capacity == ps->_top)
+
+	if (ps->_top == ps->_capacity)//满栈
 	{
-		ps->_a = realloc(ps->_a, sizeof(DataType)*(ps->_capacity + ADD_SIZE));
-		ps->_capacity += ADD_SIZE;
-		if (ps->_a == NULL)
-		{
-			perror("增容出错\n");
-			return;
-		}
+		ps->_a = (DataType*)realloc(ps->_a, sizeof(DataType) * 3);
+		//功能：改变mem_address所指内存区域的大小为newsize长度。 
+		//说明：如果重新分配成功则返回指向被分配内存的指针，否则返回空指针NULL。
+		//当内存不再使用时，应使用free()函数将内存块释放。
+		//注意：这里原始内存中的数据还是保持不变的。
+
+		assert(ps->_a);//为了防止内存没有分配成功
+
+		ps->_capacity *= 2;//容量每次增加一倍
 	}
 	ps->_a[ps->_top++] = x;
 }
-
-//Pop函数
 void StackPop(Stack* ps)
 {
-	assert(ps);
-	if (ps->_top == 0)
-		return;
+	assert(ps->_a);
+	assert(ps->_top > 0);
+
 	ps->_top--;
 }
-
-//返回INT_MAX就表示没有元素了
-DataType StackTop(const Stack* ps)
+DataType StackTop(Stack* ps)//获取栈顶数字
 {
-	Pos s;
-	s._col = -1;
-	s._row = -1;
-	assert(ps);
-	assert(ps);
-	if (ps->_top == 0)
-		return s;
+	assert(ps->_a && ps->_top > 0);
+
 	return ps->_a[ps->_top - 1];
 }
-
-//判断空栈，0表示空、1表示非空
-int StackEmpty(const Stack* ps)
+//空 0
+//非空 1
+int StackEmpty(Stack* ps)
 {
 	assert(ps);
-	return ps->_top == 0 ? 0 : 1;
+	if (ps->_top == 0)
+		return 0;
+	else
+		return 1;
 }
-
-//获取栈中元素个数
-int StackSize(const Stack* ps)
+int StackSize(Stack* ps)
 {
 	assert(ps);
+
 	return ps->_top;
 }

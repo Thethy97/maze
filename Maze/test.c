@@ -1,8 +1,8 @@
-#include"Maze.h"
+﻿#include"Maze.h"
 
 int main()
 {
 	TestMaze();
-	system("pause");
+	//system("pause");
 	return 0;
 }

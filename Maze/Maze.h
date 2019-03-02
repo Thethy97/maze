@@ -16,7 +16,6 @@ static int maze[N][N] = {
 void MazePrint();
 
 int CheckAccess(Pos next);//查看是否越界
-int GetMazePath(Pos entry, Pos exit);
-int MazeCheckIsAccess(Pos cur, Pos next);
-int MazeGetShortPath(Pos entry, Pos exit);
+//int GetMazePath(Pos entry, Pos exit);
+//int MazeGetShortPath(Pos entry, Pos exit);
 void TestMaze();
